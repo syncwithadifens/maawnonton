@@ -189,6 +189,7 @@ class _HomePageState extends State<HomePage> {
                                         moviesData.dataMoviesByPopular!
                                             .results[index].title,
                                         textAlign: TextAlign.center,
+                                        maxLines: 2,
                                         style: titleStyle.copyWith(
                                             color: blackColor,
                                             fontSize: selectedIndex == index

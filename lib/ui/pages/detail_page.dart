@@ -37,7 +37,7 @@ class _DetailPageState extends State<DetailPage> {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: NetworkImage(
-                          'https://image.tmdb.org/t/p/w500/${widget.data.backdropPath}'),
+                          'https://image.tmdb.org/t/p/w780/${widget.data.backdropPath}'),
                       fit: BoxFit.cover)),
             ),
           ),
@@ -131,6 +131,8 @@ class _DetailPageState extends State<DetailPage> {
                   Text(
                     widget.data.overview,
                     textAlign: TextAlign.justify,
+                    maxLines: 6,
+                    overflow: TextOverflow.ellipsis,
                     style: subtitleStyle.copyWith(
                         fontSize: 14,
                         color: const Color.fromARGB(255, 199, 197, 197)),

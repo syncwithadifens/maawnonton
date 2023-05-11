@@ -10,7 +10,7 @@ class MoviesProvider extends ChangeNotifier {
   Movies? dataMoviesByNowPlaying;
   Movies? dataMoviesByPopular;
   DetailMovies? detailMovies;
-  Future<void> getMoviesByNowPlaying() async {
+  getMoviesByNowPlaying() async {
     try {
       isLoading = true;
       dataMoviesByNowPlaying = await _apiRepository.getNowPlaying();
@@ -24,7 +24,7 @@ class MoviesProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getMoviesByPopular() async {
+  getMoviesByPopular() async {
     try {
       isLoading = true;
       dataMoviesByPopular = await _apiRepository.getPopular();
@@ -38,7 +38,7 @@ class MoviesProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getMoviesDetail(int id) async {
+  getMoviesDetail(int id) async {
     try {
       isLoading = true;
       detailMovies = await _apiRepository.getDetail(id);
