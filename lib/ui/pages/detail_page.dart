@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:maawnonton/models/movies_model.dart';
+import 'package:maawnonton/providers/movies_provider.dart';
 import 'package:maawnonton/theme/styles.dart';
+import 'package:provider/provider.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final Result data;
   const DetailPage({super.key, required this.data});
 
   @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<MoviesProvider>(context, listen: false)
+        .getMoviesDetail(widget.data.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final detailData = Provider.of<MoviesProvider>(context);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -22,7 +37,7 @@ class DetailPage extends StatelessWidget {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: NetworkImage(
-                          'https://image.tmdb.org/t/p/w780/${data.backdropPath}'),
+                          'https://image.tmdb.org/t/p/w500/${widget.data.backdropPath}'),
                       fit: BoxFit.cover)),
             ),
           ),
@@ -42,31 +57,52 @@ class DetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    data.title,
+                    widget.data.title,
                     style: titleStyle,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                     child: SizedBox(
                       height: 40,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: data.genreIds.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 5),
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(18),
-                                border: Border.all(color: yellowColor)),
-                            child: Text(
-                              'action',
-                              style: subtitleStyle.copyWith(fontSize: 12),
-                            ),
-                          );
-                        },
-                      ),
+                      child: detailData.isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : detailData.isSuccess &&
+                                  detailData.detailMovies != null
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                      detailData.detailMovies!.genres.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(18),
+                                          border:
+                                              Border.all(color: yellowColor)),
+                                      child: Text(
+                                        detailData
+                                            .detailMovies!.genres[index].name,
+                                        style: subtitleStyle.copyWith(
+                                            fontSize: 12),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : Center(
+                                  child: Center(
+                                    child: Text(
+                                      'Gagal mendapatkan data genre!!',
+                                      style:
+                                          subtitleStyle.copyWith(fontSize: 12),
+                                    ),
+                                  ),
+                                ),
                     ),
                   ),
                   RatingBar.builder(
@@ -86,14 +122,15 @@ class DetailPage extends StatelessWidget {
                     unratedColor: whiteColor,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 20, bottom: 10),
                     child: Text(
                       'Overview',
                       style: subtitleStyle.copyWith(color: whiteColor),
                     ),
                   ),
                   Text(
-                    data.overview,
+                    widget.data.overview,
+                    textAlign: TextAlign.justify,
                     style: subtitleStyle.copyWith(
                         fontSize: 14,
                         color: const Color.fromARGB(255, 199, 197, 197)),

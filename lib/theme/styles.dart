@@ -10,6 +10,7 @@ Color whiteColor = const Color(0xFFFFFFFF);
 Color greyColor = const Color(0xFF767680);
 
 List randomColor = [greenColor, pinkColor, cyanColor, yellowColor];
+
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;
 FontWeight medium = FontWeight.w500;

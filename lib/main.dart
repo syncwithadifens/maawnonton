@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maawnonton/providers/movies_provider.dart';
+import 'package:maawnonton/providers/search_provider.dart';
 import 'package:maawnonton/ui/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => MoviesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SearchProvider(),
         )
       ],
       child: const MaterialApp(

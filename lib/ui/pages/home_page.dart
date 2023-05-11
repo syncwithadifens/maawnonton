@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:maawnonton/providers/movies_provider.dart';
 import 'package:maawnonton/theme/styles.dart';
 import 'package:maawnonton/ui/pages/detail_page.dart';
+import 'package:maawnonton/ui/pages/search_page.dart';
 import 'package:maawnonton/ui/widgets/custom_bottom_navbar.dart';
 import 'package:maawnonton/ui/widgets/custom_fab.dart';
 import 'package:maawnonton/ui/widgets/masked_image.dart';
@@ -21,9 +22,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    final myProvider = Provider.of<MoviesProvider>(context, listen: false);
-    myProvider.getMoviesByPopular();
-    myProvider.getMoviesByNowPlaying();
+    Provider.of<MoviesProvider>(context, listen: false)
+      ..getMoviesByNowPlaying()
+      ..getMoviesByPopular();
   }
 
   @override
@@ -114,19 +115,26 @@ class _HomePageState extends State<HomePage> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Container(
-                  height: 40,
-                  margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text('Cari movie yang kamu suka'),
-                      Icon(Icons.search)
-                    ],
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchPage(),
+                      )),
+                  child: Container(
+                    height: 40,
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text('Cari movie yang kamu suka'),
+                        Icon(Icons.search)
+                      ],
+                    ),
                   ),
                 ),
                 Padding(
@@ -139,47 +147,70 @@ class _HomePageState extends State<HomePage> {
                 ),
                 moviesData.isLoading
                     ? const Center(
-                        child: CircularProgressIndicator(),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 50),
+                          child: CircularProgressIndicator(),
+                        ),
                       )
-                    : moviesData.dataMoviesByPopular == null
-                        ? const Center(
-                            child: Text('Data Kosong'),
-                          )
-                        : ScaledList(
+                    : moviesData.isSuccess &&
+                            moviesData.dataMoviesByPopular != null
+                        ? ScaledList(
                             itemCount: 5,
                             itemColor: (index) {
                               return randomColor[index % randomColor.length];
                             },
                             itemBuilder: (index, selectedIndex) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 40),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://image.tmdb.org/t/p/w185/${moviesData.dataMoviesByPopular!.results[index].posterPath}'),
-                                            fit: BoxFit.cover)),
-                                    height: selectedIndex == index ? 200 : 80,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      moviesData.dataMoviesByNowPlaying!
-                                          .results[index].title,
-                                      textAlign: TextAlign.center,
-                                      style: titleStyle.copyWith(
-                                          color: blackColor,
-                                          fontSize:
-                                              selectedIndex == index ? 25 : 20),
+                              return GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailPage(
+                                          data: moviesData.dataMoviesByPopular!
+                                              .results[index]),
+                                    )),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 40),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  'https://image.tmdb.org/t/p/w185/${moviesData.dataMoviesByPopular!.results[index].posterPath}'),
+                                              fit: BoxFit.cover)),
+                                      height: selectedIndex == index ? 200 : 80,
                                     ),
-                                  )
-                                ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        moviesData.dataMoviesByPopular!
+                                            .results[index].title,
+                                        textAlign: TextAlign.center,
+                                        style: titleStyle.copyWith(
+                                            color: blackColor,
+                                            fontSize: selectedIndex == index
+                                                ? 25
+                                                : 20),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               );
                             },
+                          )
+                        : Center(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 50, bottom: 20),
+                              child: Text(
+                                'Oops, terjadi kesalahan pada server',
+                                style: subtitleStyle.copyWith(
+                                    color: pinkColor, fontSize: 14),
+                              ),
+                            ),
                           ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -205,11 +236,9 @@ class _HomePageState extends State<HomePage> {
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : moviesData.dataMoviesByNowPlaying == null
-                          ? const Center(
-                              child: Text('Data Kosong'),
-                            )
-                          : ListView.builder(
+                      : moviesData.isSuccess &&
+                              moviesData.dataMoviesByNowPlaying != null
+                          ? ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemCount: moviesData
@@ -249,6 +278,13 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 );
                               },
+                            )
+                          : Center(
+                              child: Text(
+                                'Oops, terjadi kesalahan pada server',
+                                style: subtitleStyle.copyWith(
+                                    color: pinkColor, fontSize: 14),
+                              ),
                             ),
                 ),
                 Padding(
@@ -277,11 +313,9 @@ class _HomePageState extends State<HomePage> {
                         ? const Center(
                             child: CircularProgressIndicator(),
                           )
-                        : moviesData.dataMoviesByPopular == null
-                            ? const Center(
-                                child: Text('Data Kosong'),
-                              )
-                            : ListView.builder(
+                        : moviesData.isSuccess &&
+                                moviesData.dataMoviesByPopular != null
+                            ? ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemCount: moviesData
@@ -298,17 +332,34 @@ class _HomePageState extends State<HomePage> {
                                   } else {
                                     mask = 'assets/mask/mask.png';
                                   }
-                                  return Container(
-                                    height: 160,
-                                    width: 142,
-                                    margin: EdgeInsets.only(
-                                        left: index == 0 ? 20 : 0),
-                                    child: MaskedImage(
-                                        asset: moviesData.dataMoviesByPopular!
-                                            .results[index].posterPath,
-                                        mask: mask),
+                                  return GestureDetector(
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DetailPage(
+                                              data: moviesData
+                                                  .dataMoviesByPopular!
+                                                  .results[index]),
+                                        )),
+                                    child: Container(
+                                      height: 160,
+                                      width: 142,
+                                      margin: EdgeInsets.only(
+                                          left: index == 0 ? 20 : 0),
+                                      child: MaskedImage(
+                                          asset: moviesData.dataMoviesByPopular!
+                                              .results[index].posterPath,
+                                          mask: mask),
+                                    ),
                                   );
                                 },
+                              )
+                            : Center(
+                                child: Text(
+                                  'Oops, terjadi kesalahan pada server',
+                                  style: subtitleStyle.copyWith(
+                                      color: pinkColor, fontSize: 14),
+                                ),
                               ),
                   ),
                 )
