@@ -10,26 +10,24 @@ class MoviesProvider extends ChangeNotifier {
   Movies? dataMoviesByNowPlaying;
   Movies? dataMoviesByPopular;
   DetailMovies? detailMovies;
+
   getMoviesByNowPlaying() async {
-    try {
-      isLoading = true;
-      dataMoviesByNowPlaying = await _apiRepository.getNowPlaying();
+    isLoading = true;
+    dataMoviesByNowPlaying = await _apiRepository.getNowPlaying();
+    if (dataMoviesByNowPlaying != null) {
       isSuccess = true;
       isLoading = false;
       notifyListeners();
-    } catch (e) {
-      isLoading = false;
+    } else {
       isSuccess = false;
+      isLoading = false;
       notifyListeners();
     }
   }
 
   getMoviesByPopular() async {
     try {
-      isLoading = true;
       dataMoviesByPopular = await _apiRepository.getPopular();
-      isSuccess = true;
-      isLoading = false;
       notifyListeners();
     } catch (e) {
       isLoading = false;
@@ -39,13 +37,13 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   getMoviesDetail(int id) async {
-    try {
-      isLoading = true;
-      detailMovies = await _apiRepository.getDetail(id);
-      isSuccess = true;
+    isLoading = true;
+    detailMovies = await _apiRepository.getDetail(id);
+    if (detailMovies != null) {
       isLoading = false;
+      isSuccess = true;
       notifyListeners();
-    } catch (e) {
+    } else {
       isLoading = false;
       isSuccess = false;
       notifyListeners();

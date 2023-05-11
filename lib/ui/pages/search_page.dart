@@ -86,6 +86,7 @@ class _SearchPageState extends State<SearchPage> {
                                         Text(
                                           searchProvider
                                               .dataSearch!.results[index].title,
+                                          maxLines: 2,
                                           style: titleStyle.copyWith(
                                               color: blackColor, fontSize: 18),
                                         ),

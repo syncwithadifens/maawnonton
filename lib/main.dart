@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => MoviesProvider(),
+          create: (_) => MoviesProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => SearchProvider(),
+          create: (_) => SearchProvider(),
         )
       ],
       child: const MaterialApp(
