@@ -105,9 +105,12 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     )
                   : Center(
-                      child: Text(
-                        'Mau cari apa?',
-                        style: subtitleStyle.copyWith(fontSize: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 50),
+                        child: Text(
+                          'Belum ada pencarian dilakukan..',
+                          style: subtitleStyle.copyWith(fontSize: 16),
+                        ),
                       ),
                     )
             ],
