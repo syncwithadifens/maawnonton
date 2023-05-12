@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => MoviesProvider(),
+          create: (_) => MoviesProvider()..getAllMovies(),
         ),
         ChangeNotifierProvider(
           create: (_) => SearchProvider(),

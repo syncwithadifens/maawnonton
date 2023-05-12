@@ -6,7 +6,7 @@ import 'package:maawnonton/services/api_repository.dart';
 class MoviesProvider extends ChangeNotifier {
   final _apiRepository = ApiRepository();
   bool isLoading = false;
-  bool isSuccess = false;
+  bool isSuccess = true;
   Movies? dataMoviesByNowPlaying;
   Movies? dataMoviesByPopular;
   DetailMovies? detailMovies;
@@ -26,12 +26,15 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   getMoviesByPopular() async {
-    try {
-      dataMoviesByPopular = await _apiRepository.getPopular();
-      notifyListeners();
-    } catch (e) {
+    isLoading = true;
+    dataMoviesByPopular = await _apiRepository.getPopular();
+    if (dataMoviesByPopular != null) {
+      isSuccess = true;
       isLoading = false;
+      notifyListeners();
+    } else {
       isSuccess = false;
+      isLoading = false;
       notifyListeners();
     }
   }
@@ -40,13 +43,18 @@ class MoviesProvider extends ChangeNotifier {
     isLoading = true;
     detailMovies = await _apiRepository.getDetail(id);
     if (detailMovies != null) {
-      isLoading = false;
       isSuccess = true;
+      isLoading = false;
       notifyListeners();
     } else {
       isLoading = false;
       isSuccess = false;
       notifyListeners();
     }
+  }
+
+  getAllMovies() async {
+    await getMoviesByNowPlaying();
+    await getMoviesByPopular();
   }
 }

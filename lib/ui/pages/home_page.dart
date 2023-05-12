@@ -11,21 +11,8 @@ import 'package:maawnonton/ui/widgets/masked_image.dart';
 import 'package:provider/provider.dart';
 import 'package:scaled_list/scaled_list.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<MoviesProvider>(context, listen: false)
-      ..getMoviesByNowPlaying()
-      ..getMoviesByPopular();
-  }
 
   @override
   Widget build(BuildContext context) {
