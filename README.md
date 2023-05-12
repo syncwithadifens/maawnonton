@@ -1,16 +1,17 @@
 # maawnonton
 
-A new Flutter project.
+Project Movie menggunakan API dari TMDB
 
-## Getting Started
+### Features
 
-This project is a starting point for a Flutter application.
+- [x] Menerapkan state management Provider
+- [x] Menerapkan design pattern MVVM
 
-A few resources to get you started if this is your first Flutter project:
+### Preview in Mobile
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+|                                               |                                               |
+| --------------------------------------------- | --------------------------------------------- |
+| Home Page                                     | Detail Page                                   |
+| ![Home Page](assets/github-prev/home.png)     | ![Detail Page](assets/github-prev/detail.png) |
+| Search Page                                   |                                               |
+| ![Search Page](assets/github-prev/search.png) |                                               |
