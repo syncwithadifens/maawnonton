@@ -13,6 +13,6 @@ Project Movie menggunakan API dari TMDB
 |                                               |                                               |
 | --------------------------------------------- | --------------------------------------------- |
 | Home Page                                     | Detail Page                                   |
-| ![Home Page](assets/github-prev/home.png)     | ![Detail Page](assets/github-prev/detail.png) |
+| ![Home Page](assets/github-prev/home.PNG)     | ![Detail Page](assets/github-prev/detail.PNG) |
 | Search Page                                   |                                               |
-| ![Search Page](assets/github-prev/search.png) |                                               |
+| ![Search Page](assets/github-prev/search.PNG) |                                               |
