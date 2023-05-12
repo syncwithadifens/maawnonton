@@ -6,6 +6,7 @@ Project Movie menggunakan API dari TMDB
 
 - [x] Menerapkan state management Provider
 - [x] Menerapkan design pattern MVVM
+- [x] Terdapat fitur pencarian
 
 ### Preview in Mobile
 
