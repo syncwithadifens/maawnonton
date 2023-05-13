@@ -15,9 +15,7 @@ jobs:
           java-version: "11"
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.7.7"
-          channel: "stable"
-      - name: Cek versi flutter
+          channel: "stable" # or: 'beta', 'dev' or 'master'
       - run: flutter --version
       - run: flutter pub get
       # - run: flutter test
