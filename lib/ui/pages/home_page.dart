@@ -19,7 +19,6 @@ class HomePage extends StatelessWidget {
     final moviesData = Provider.of<MoviesProvider>(context);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: blackColor,
       floatingActionButton: const CustomFab(),
@@ -153,7 +152,7 @@ class HomePage extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (context) => DetailPage(
                                           data: moviesData.dataMoviesByPopular!
-                                              .results[index]),
+                                              .results![index]),
                                     )),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -166,15 +165,14 @@ class HomePage extends StatelessWidget {
                                               BorderRadius.circular(8),
                                           image: DecorationImage(
                                               image: NetworkImage(
-                                                  'https://image.tmdb.org/t/p/w185/${moviesData.dataMoviesByPopular!.results[index].posterPath}'),
+                                                  'https://image.tmdb.org/t/p/w185/${moviesData.dataMoviesByPopular!.results![index].posterPath}'),
                                               fit: BoxFit.cover)),
                                       height: selectedIndex == index ? 200 : 80,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        moviesData.dataMoviesByPopular!
-                                            .results[index].title,
+                                        '${moviesData.dataMoviesByPopular!.results![index].title}',
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
                                         style: titleStyle.copyWith(
@@ -230,13 +228,13 @@ class HomePage extends StatelessWidget {
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemCount: moviesData
-                                  .dataMoviesByNowPlaying!.results.length,
+                                  .dataMoviesByNowPlaying!.results!.length,
                               itemBuilder: (context, index) {
                                 String mask;
                                 if (index == 0) {
                                   mask = 'assets/mask/mask_firstIndex.png';
                                 } else if (index ==
-                                    moviesData.dataMoviesByNowPlaying!.results
+                                    moviesData.dataMoviesByNowPlaying!.results!
                                             .length -
                                         1) {
                                   mask = 'assets/mask/mask_lastIndex.png';
@@ -250,7 +248,7 @@ class HomePage extends StatelessWidget {
                                         builder: (context) => DetailPage(
                                             data: moviesData
                                                 .dataMoviesByNowPlaying!
-                                                .results[index]),
+                                                .results![index]),
                                       )),
                                   child: Container(
                                     height: 160,
@@ -260,7 +258,7 @@ class HomePage extends StatelessWidget {
                                     child: MaskedImage(
                                         asset: moviesData
                                             .dataMoviesByNowPlaying!
-                                            .results[index]
+                                            .results![index]
                                             .posterPath,
                                         mask: mask),
                                   ),
@@ -307,13 +305,13 @@ class HomePage extends StatelessWidget {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemCount: moviesData
-                                    .dataMoviesByPopular!.results.length,
+                                    .dataMoviesByPopular!.results!.length,
                                 itemBuilder: (context, index) {
                                   String mask;
                                   if (index == 0) {
                                     mask = 'assets/mask/mask_firstIndex.png';
                                   } else if (index ==
-                                      moviesData.dataMoviesByPopular!.results
+                                      moviesData.dataMoviesByPopular!.results!
                                               .length -
                                           1) {
                                     mask = 'assets/mask/mask_lastIndex.png';
@@ -327,7 +325,7 @@ class HomePage extends StatelessWidget {
                                           builder: (context) => DetailPage(
                                               data: moviesData
                                                   .dataMoviesByPopular!
-                                                  .results[index]),
+                                                  .results![index]),
                                         )),
                                     child: Container(
                                       height: 160,
@@ -336,7 +334,7 @@ class HomePage extends StatelessWidget {
                                           left: index == 0 ? 20 : 0),
                                       child: MaskedImage(
                                           asset: moviesData.dataMoviesByPopular!
-                                              .results[index].posterPath,
+                                              .results![index].posterPath,
                                           mask: mask),
                                     ),
                                   );

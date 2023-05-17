@@ -55,7 +55,7 @@ class DetailPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data.title,
+                              '${data.title}',
                               style: titleStyle,
                             ),
                             Padding(
@@ -66,7 +66,7 @@ class DetailPage extends StatelessWidget {
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
-                                        detailData.detailMovies!.genres.length,
+                                        detailData.detailMovies!.genres!.length,
                                     itemBuilder: (context, index) {
                                       return Container(
                                         margin: const EdgeInsets.symmetric(
@@ -78,8 +78,7 @@ class DetailPage extends StatelessWidget {
                                             border:
                                                 Border.all(color: yellowColor)),
                                         child: Text(
-                                          detailData
-                                              .detailMovies!.genres[index].name,
+                                          '${detailData.detailMovies!.genres![index].name}',
                                           style: subtitleStyle.copyWith(
                                               fontSize: 12),
                                         ),
@@ -114,7 +113,7 @@ class DetailPage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              data.overview,
+                              '${data.overview}',
                               textAlign: TextAlign.justify,
                               maxLines: 6,
                               overflow: TextOverflow.ellipsis,

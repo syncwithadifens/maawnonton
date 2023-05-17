@@ -39,9 +39,9 @@ class MoviesProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getMoviesDetail(int id) async {
+  Future<void> getMoviesDetail(int? id) async {
     isLoading = true;
-    detailMovies = await _apiRepository.getDetail(id);
+    detailMovies = await _apiRepository.getDetail(id!);
     if (detailMovies != null) {
       isSuccess = true;
       isLoading = false;
@@ -53,8 +53,8 @@ class MoviesProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getAllMovies() async {
-    await getMoviesByNowPlaying();
-    await getMoviesByPopular();
+  getAllMovies() {
+    getMoviesByNowPlaying();
+    getMoviesByPopular();
   }
 }
