@@ -53,8 +53,8 @@ class MoviesProvider extends ChangeNotifier {
     }
   }
 
-  getAllMovies() {
-    getMoviesByNowPlaying();
-    getMoviesByPopular();
+  Future<void> getAllMovies() async {
+    await getMoviesByNowPlaying();
+    await getMoviesByPopular();
   }
 }
